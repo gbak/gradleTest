@@ -1,0 +1,40 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '24.0.1'
+
+    sourceSets {
+	   
+        main.jni.srcDirs = []
+        main.jniLibs.srcDir 'src/main/libs'
+        main.java {
+            srcDir "../../java/src"
+            exclude  {  FileTreeElement elem ->
+                println "Searching for files, found: " + elem.relativePath
+                !(elem.isDirectory() || elem.name.equals('Library1Source.java'))
+            }
+            //include ("**/libraryoneonly/**")
+            //include ('com/company/product/pkg1/libraryoneonly/Library1Source.java')
+        }
+    }
+    
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 19
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+	compile project(':library2')
+}

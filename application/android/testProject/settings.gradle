@@ -1,0 +1,4 @@
+include ':app',':library1','library2'
+
+project(':library1').projectDir = new File('../../../libraries/library1')
+project(':library2').projectDir = new File('../../../libraries/library2')
